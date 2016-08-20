@@ -48,8 +48,9 @@ cp -a $EMUDIR/source/Install/emuserver $EMUDIR/server
 cp -a $EMUDIR/source/Install/eqemu_config.xml $EMUDIR/server
 rm -f $EMUDIR/server/plugins/*.pl
 touch $EMUDIR/server/plugin.pl
+cd $EMUDIR/server
 chmod +x $EMUDIR/server/*.pl
 chmod +x $EMUDIR/server/emuserver
-$EMUDIR/server/_update.pl update
-$EMUDIR/server/eqemu_update.pl firstrun ran_from_start
+$EMUDIR/server/eqemu_update.pl update
+$EMUDIR/server/_update.pl firstrun ran_from_start
 chown -R eqemu.eqemu $EMUDIR
