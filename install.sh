@@ -13,6 +13,7 @@ gpgcheck=1
 EOF
 alias cp='cp'
 yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+yum -y install deltarpm
 yum -y install open-vm-tools vim tuned tuned cmake boost-* zlib-devel mariadb-server mariadb-client mariadb-devel mariadb-libs mariadb-compat perl-* lua* p7zip dos2unix
 yum -y groupinstall "Development Tools"
 yum -y groupinstall "Basic Web Server"
