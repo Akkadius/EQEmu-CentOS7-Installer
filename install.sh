@@ -29,7 +29,7 @@ cd $EMUDIR/source/Install
 7za e peqdb.7z -aoa
 mysql -u root -peqemu < $EMUDIR/source/Install/db_prep.sql
 mysql -u eqemu -peqemu peq < $EMUDIR/source/Install/peqbeta.sql
-mysql -u eqemu -peqemu peq < $EMUDIR/player_tables.sql
+mysql -u eqemu -peqemu peq < $EMUDIR/source/Install/player_tables.sql
 cd $EMUDIR/source
 git clone https://github.com/EQEmu/Server.git
 cd $EMUDIR/source/Server
