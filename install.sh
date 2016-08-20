@@ -11,12 +11,12 @@ gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 enabled=1
 gpgcheck=1
 EOF
-yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-yum install open-vm-tools vim tuned tuned cmake boost-* zlib-devel mariadb-server mariadb-client mariadb-devel mariadb-libs mariadb-compat perl-* lua* p7zip dos2unix
-yum groupinstall "Development Tools"
-yum groupinstall "Basic Web Server"
-yum groupinstall "Compatibility Libraries"
-yum remove *mpich*
+yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+yum -y install open-vm-tools vim tuned tuned cmake boost-* zlib-devel mariadb-server mariadb-client mariadb-devel mariadb-libs mariadb-compat perl-* lua* p7zip dos2unix
+yum -y groupinstall "Development Tools"
+yum -y groupinstall "Basic Web Server"
+yum -y groupinstall "Compatibility Libraries"
+yum -y remove *mpich*
 tuned profile virtual-guest
 echo "Starting MariaDB server..."
 systemctl start mariadb.service
