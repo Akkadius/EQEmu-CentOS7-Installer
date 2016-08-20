@@ -28,7 +28,7 @@ mkdir /home/eqemu/source
 cd /home/eqemu/source
 git clone https://github.com/N0ctrnl/EQEmu-CentOS7-Install-Script.git Install
 cd /home/eqemu/source/Install
-7za e peqdb.7z
+7za e peqdb.7z -aoa
 mysql -u root -peqemu < /home/eqemu/source/Install/db_prep.sql
 mysql -u eqemu -peqemu peq < /home/eqemu/source/Install/peqbeta.sql
 mysql -u eqemu -peqemu peq < /home/eqemu/player_tables.sql
