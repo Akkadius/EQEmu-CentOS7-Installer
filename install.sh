@@ -11,6 +11,7 @@ gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 enabled=1
 gpgcheck=1
 EOF
+alias cp='cp'
 yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 yum -y install open-vm-tools vim tuned tuned cmake boost-* zlib-devel mariadb-server mariadb-client mariadb-devel mariadb-libs mariadb-compat perl-* lua* p7zip dos2unix
 yum -y groupinstall "Development Tools"
@@ -37,16 +38,17 @@ cd /home/eqemu/source/Server/build
 cmake -G "Unix Makefiles" ..
 echo "Building EQEmu Server code. This will take a while."
 make
-alias cp='cp'
 mkdir /home/eqemu/server/export
 cp -a /home/eqemu/source/Server/build/bin/* /home/eqemu/server/
 cp -a /home/eqemu/source/Server/utils/scripts/db_dumper.pl /home/eqemu/server
 cp -a /home/eqemu/source/Server/utils/scripts/eqemu_update.pl /home/eqemu/server
 cp -a /home/eqemu/source/Server/utils/defaults/* /home/eqemu/server
 cp -a /home/eqemu/source/Install/_update.pl /home/eqemu/server
+cp -a /home/eqemu/source/Install/emuserver /home/eqemu/server
 rm -f /home/eqemu/server/plugins/*.pl
 touch /home/eqemu/server/plugin.pl
 chmod +x /home/eqemu/server/*.pl
+chmod +x /home/eqemu/server/emuserver
 /home/eqemu/server/_update.pl update
 /home/eqemu/server/eqemu_update.pl firstrun ran_from_start
 chown -R eqemu.eqemu /home/eqemu
