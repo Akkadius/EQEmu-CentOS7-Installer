@@ -17,38 +17,38 @@ case "$1" in
                 sleep 2
                 echo "Starting World Server..."
                 ./world > /dev/null 2>&1 &
-                echo $! > /server/world.pid
+                echo $! > ~/server/world.pid
 
                 sleep 3
                 echo "Starting Query Server..."
                 ./queryserv > /dev/null 2>&1 &
-                echo $! > /server/queryserv.pid
+                echo $! > ~/server/queryserv.pid
 
                 sleep 1
                 echo "Starting the Zone Launcher..."
                 ./eqlaunch zone > /dev/null 2>&1 &
-                echo $! > /server/zone.pid
+                echo $! > ~/server/zone.pid
 
                 sleep 1
                 echo "Starting the PEQ Launcher..."
                 ./eqlaunch peq > /dev/null 2>&1 &
-                echo $! > /server/peq.pid
+                echo $! > ~/server/peq.pid
 
                 echo "Starting Universal Chat Service (UCS)..."
                 ./ucs > logs/ucs.log 2>&1 &
-                echo $! > /server/ucs.pid
+                echo $! > ~/server/ucs.pid
 
                 sleep 1
                 echo The server is mostly ready... Give it a couple of minutes
                 echo to load stuff from the database before the users start  logging in.
                 ;;
         stop)
-                kill `cat /server/world.pid`
-                kill `cat /server/queryserv.pid`
-                kill `cat /server/zone.pid`
-                kill `cat /server/peq.pid`
-                kill `cat /server/ucs.pid`
-                rm -f /server/*.pid
+                kill `cat ~/server/world.pid`
+                kill `cat ~/server/queryserv.pid`
+                kill `cat ~/server/zone.pid`
+                kill `cat ~/server/peq.pid`
+                kill `cat ~/server/ucs.pid`
+                rm -f ~/server/*.pid
                 echo All server components have been exited.
                 ;;
         restart|reload)
@@ -56,34 +56,34 @@ case "$1" in
                 $0 start
                 ;;
         status)
-                if [ -f /server/world.pid ] && ps -p `cat /server/world.pid` > /dev/null
+                if [ -f ~/server/world.pid ] && ps -p `cat ~/server/world.pid` > /dev/null
                 then
                         echo -e World Server '\t\t'  [$(tput bold)$(tput setaf 2)UP$(tput sgr0)]
                 else
                         echo -e World Server '\t\t' [$(tput bold)$(tput setaf 1)DOWN$(tput sgr0)]
                 fi
-                if [ -f /server/queryserv.pid ] && ps -p `cat /server/queryserv.pid` > /dev/null
+                if [ -f ~/server/queryserv.pid ] && ps -p `cat ~/server/queryserv.pid` > /dev/null
                 then
                         echo -e Query Server '\t\t' [$(tput bold)$(tput setaf 2)UP$(tput sgr0)]
                 else
                         echo -e Query Server '\t\t' [$(tput bold)$(tput setaf 1)DOWN$(tput sgr0)]
                 fi
 
-                if [ -f /server/ucs.pid ] && ps -p `cat /server/ucs.pid` > /dev/null
+                if [ -f ~/server/ucs.pid ] && ps -p `cat ~/server/ucs.pid` > /dev/null
                 then
                         echo -e UCS Server '\t\t' [$(tput bold)$(tput setaf 2)UP$(tput sgr0)]
                 else
                         echo -e UCS Server '\t\t' [$(tput bold)$(tput setaf 1)DOWN$(tput sgr0)]
                 fi
 
-                if [ -f /server/zone.pid ] && ps -p `cat /server/eqlaunch.pid` > /dev/null
+                if [ -f ~/server/zone.pid ] && ps -p `cat ~/server/zone.pid` > /dev/null
                 then
                         echo -e Zone Launcher '\t\t' [$(tput bold)$(tput setaf 2)UP$(tput sgr0)]
                 else
                         echo -e Zone Launcher '\t\t' [$(tput bold)$(tput setaf 1)DOWN$(tput sgr0)]
                 fi
                 
-                if [ -f /server/peq.pid ] && ps -p `cat /server/eqlaunch.pid` > /dev/null
+                if [ -f ~/server/peq.pid ] && ps -p `cat ~/server/peq.pid` > /dev/null
                 then
                         echo -e PEQ Launcher '\t\t' [$(tput bold)$(tput setaf 2)UP$(tput sgr0)]
                 else
