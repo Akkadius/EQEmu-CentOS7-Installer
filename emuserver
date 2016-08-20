@@ -1,3 +1,4 @@
+#!/bin/sh
 ulimit -c unlimited
 
 # Create alias for 'cp' so it will overwrite without prompting
@@ -10,7 +11,6 @@ case "$1" in
                 mv logs /backups/logs.`date +"%m-%d-%y"`
                 mkdir -p logs/zone
 
-                #sleep 1
                 echo Loading Shared Mem...
                 ./shared_memory > /dev/null 2>&1 &
 
