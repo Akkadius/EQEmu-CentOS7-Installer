@@ -1,4 +1,5 @@
 #!/bin/bash
+export EMUDIR=/home/eqemu
 echo "Please enter a new password for the eqemu user"
 passwd eqemu
 cat <<EOF > /etc/yum.repos.d/mariadb.repo
@@ -14,43 +15,41 @@ EOF
 alias cp='cp'
 yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 yum -y install deltarpm
-yum -y install open-vm-tools vim tuned tuned cmake boost-* zlib-devel mariadb-server mariadb-client mariadb-devel mariadb-libs mariadb-compat perl-* lua* p7zip dos2unix
-yum -y groupinstall "Development Tools"
-yum -y groupinstall "Basic Web Server"
-yum -y groupinstall "Compatibility Libraries"
-yum -y remove *mpich*
-tuned profile virtual-guest
+yum -y install open-vm-tools vim tuned tuned cmake boost-* zlib-devel mariadb-server mariadb-client mariadb-devel mariadb-libs mariadb-compat perl-* lua* p7zip dos2unix php-mysql
+yum -y groupinstall "Development Tools" "Basic Web Server" "Compatibility Libraries"
+tuned-adm profile virtual-guest
 echo "Starting MariaDB server..."
 systemctl start mariadb.service
 /usr/bin/mysqladmin -u root password 'eqemu'
-mkdir /home/eqemu/server
-mkdir /home/eqemu/source
-cd /home/eqemu/source
+mkdir $EMUDIR/server
+mkdir $EMUDIR/source
+cd $EMUDIR/source
 git clone https://github.com/N0ctrnl/EQEmu-CentOS7-Install-Script.git Install
-cd /home/eqemu/source/Install
+cd $EMUDIR/source/Install
 7za e peqdb.7z -aoa
-mysql -u root -peqemu < /home/eqemu/source/Install/db_prep.sql
-mysql -u eqemu -peqemu peq < /home/eqemu/source/Install/peqbeta.sql
-mysql -u eqemu -peqemu peq < /home/eqemu/player_tables.sql
-cd /home/eqemu/source
+mysql -u root -peqemu < $EMUDIR/source/Install/db_prep.sql
+mysql -u eqemu -peqemu peq < $EMUDIR/source/Install/peqbeta.sql
+mysql -u eqemu -peqemu peq < $EMUDIR/player_tables.sql
+cd $EMUDIR/source
 git clone https://github.com/EQEmu/Server.git
-cd /home/eqemu/source/Server
+cd $EMUDIR/source/Server
 mkdir build
-cd /home/eqemu/source/Server/build
+cd $EMUDIR/source/Server/build
 cmake -G "Unix Makefiles" ..
 echo "Building EQEmu Server code. This will take a while."
 make
-mkdir /home/eqemu/server/export
-cp -a /home/eqemu/source/Server/build/bin/* /home/eqemu/server/
-cp -a /home/eqemu/source/Server/utils/scripts/db_dumper.pl /home/eqemu/server
-cp -a /home/eqemu/source/Server/utils/scripts/eqemu_update.pl /home/eqemu/server
-cp -a /home/eqemu/source/Server/utils/defaults/* /home/eqemu/server
-cp -a /home/eqemu/source/Install/_update.pl /home/eqemu/server
-cp -a /home/eqemu/source/Install/emuserver /home/eqemu/server
-rm -f /home/eqemu/server/plugins/*.pl
-touch /home/eqemu/server/plugin.pl
-chmod +x /home/eqemu/server/*.pl
-chmod +x /home/eqemu/server/emuserver
-/home/eqemu/server/_update.pl update
-/home/eqemu/server/eqemu_update.pl firstrun ran_from_start
-chown -R eqemu.eqemu /home/eqemu
+mkdir $EMUDIR/server/export
+cp -a $EMUDIR/source/Server/build/bin/* $EMUDIR/server/
+cp -a $EMUDIR/source/Server/utils/scripts/db_dumper.pl $EMUDIR/server
+cp -a $EMUDIR/source/Server/utils/scripts/eqemu_update.pl $EMUDIR/server
+cp -a $EMUDIR/source/Server/utils/defaults/* $EMUDIR/server
+cp -a $EMUDIR/source/Install/_update.pl $EMUDIR/server
+cp -a $EMUDIR/source/Install/emuserver $EMUDIR/server
+cp -a $EMUDIR/source/Install/eqemu_config.xml $EMUDIR/server
+rm -f $EMUDIR/server/plugins/*.pl
+touch $EMUDIR/server/plugin.pl
+chmod +x $EMUDIR/server/*.pl
+chmod +x $EMUDIR/server/emuserver
+$EMUDIR/server/_update.pl update
+$EMUDIR/server/eqemu_update.pl firstrun ran_from_start
+chown -R eqemu.eqemu $EMUDIR
