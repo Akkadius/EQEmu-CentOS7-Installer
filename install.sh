@@ -44,6 +44,7 @@ cp -a /home/eqemu/source/Server/utils/scripts/db_dumper.pl /home/eqemu/server
 cp -a /home/eqemu/source/Server/utils/scripts/eqemu_update.pl /home/eqemu/server
 cp -a /home/eqemu/source/Server/utils/defaults/* /home/eqemu/server
 cp -a /home/eqemu/source/Install/_update.pl /home/eqemu/server
+rm -f /home/eqemu/server/plugins/*.pl
 touch /home/eqemu/server/plugin.pl
 chmod +x /home/eqemu/server/*.pl
 /home/eqemu/server/_update.pl update
