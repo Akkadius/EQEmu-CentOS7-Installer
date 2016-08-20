@@ -107,33 +107,6 @@ if($path eq ""){
 	exit;
 }
 
-if($ARGV[0] eq "install_peq_db"){
-	
-	$db_name = "peq";
-	if($ARGV[1]){
-		$db_name = $ARGV[1];
-	}
-	
-	$db = $db_name;
-
-	#::: Database Routines
-	print "MariaDB :: Creating Database '" . $db_name . "'\n";
-	print `"$path" --host $host --user $user --password="$pass" -N -B -e "DROP DATABASE IF EXISTS $db_name;"`;
-	print `"$path" --host $host --user $user --password="$pass" -N -B -e "CREATE DATABASE $db_name"`;
-	if($OS eq "Windows"){ @db_version = split(': ', `world db_version`); } 
-	if($OS eq "Linux"){ @db_version = split(': ', `./world db_version`); }  
-	$bin_db_ver = trim($db_version[1]);
-	check_db_version_table();
-	$local_db_ver = trim(get_mysql_result("SELECT version FROM db_version LIMIT 1"));
-	fetch_peq_db_full();
-	print "\nFetching Latest Database Updates...\n";
-	main_db_management();
-	print "\nApplying Latest Database Updates...\n";
-	main_db_management();
-	
-	print get_mysql_result("UPDATE `launcher` SET `dynamics` = 30 WHERE `name` = 'zone'");
-}
-
 if($ARGV[0] eq "update"){
 	main_db_management();
 	main_db_management();
@@ -145,55 +118,6 @@ if($ARGV[0] eq "firstrun"){
 	plugins_fetch();
 	quest_files_fetch();
 	lua_modules_fetch();
-}
-
-if($ARGV[0] eq "remove_duplicate_rules"){
-	remove_duplicate_rule_values();	
-	exit;
-}
-
-if($ARGV[0] eq "installer"){
-	print "Running EQEmu Server installer routines...\n";
-	mkdir('logs');
-	mkdir('updates_staged');
-	mkdir('shared');
-	fetch_latest_windows_binaries();
-	map_files_fetch_bulk();
-	opcodes_fetch();
-	plugins_fetch();
-	quest_files_fetch();
-	lua_modules_fetch();
-	
-	#::: Binary dll's
-	get_remote_file("https://raw.githubusercontent.com/Akkadius/EQEmuInstall/master/lua51.dll", "lua51.dll", 1);
-	get_remote_file("https://raw.githubusercontent.com/Akkadius/EQEmuInstall/master/zlib1.dll", "zlib1.dll", 1);
-	get_remote_file("https://raw.githubusercontent.com/Akkadius/EQEmuInstall/master/libmysql.dll", "libmysql.dll", 1);
-	
-	#::: Server scripts
-	fetch_utility_scripts();
-	
-	#::: Database Routines
-	print "MariaDB :: Creating Database 'peq'\n";
-	print `"$path" --host $host --user $user --password="$pass" -N -B -e "DROP DATABASE IF EXISTS peq;"`;
-	print `"$path" --host $host --user $user --password="$pass" -N -B -e "CREATE DATABASE peq"`;
-	if($OS eq "Windows"){ @db_version = split(': ', `world db_version`); } 
-	if($OS eq "Linux"){ @db_version = split(': ', `./world db_version`); }  
-	$bin_db_ver = trim($db_version[1]);
-	check_db_version_table();
-	$local_db_ver = trim(get_mysql_result("SELECT version FROM db_version LIMIT 1"));
-	fetch_peq_db_full();
-	print "\nFetching Latest Database Updates...\n";
-	main_db_management();
-	print "\nApplying Latest Database Updates...\n";
-	main_db_management();
-	
-	print get_mysql_result("UPDATE `launcher` SET `dynamics` = 30 WHERE `name` = 'zone'");
-	
-	if($OS eq "Windows"){
-		check_windows_firewall_rules();
-		do_windows_login_server_setup();
-	}
-	exit;
 }
 
 if($ARGV[0] eq "db_dump_compress"){ database_dump_compress(); exit; }
@@ -263,12 +187,12 @@ if($db){
 if($local_db_ver < $bin_db_ver && $ARGV[0] eq "ran_from_world"){
 	print "You have missing database updates, type 1 or 2 to backup your database before running them as recommended...\n\n";
 	#::: Display Menu 
-	show_menu_prompt();
+#	show_menu_prompt();
 }
 else{
 	#::: Most likely ran standalone
 	print "\n";
-	show_menu_prompt();
+#	show_menu_prompt();
 }
 
 sub do_update_self{
@@ -317,7 +241,7 @@ sub show_menu_prompt {
     while (1) { 
 		{
 			local $| = 1;
-			if(!$menu_show && ($ARGV[0] eq "ran_from_world" || $ARGV[0] eq "ran_from_start")){ 
+			if(!$menu_show && ($ARGV[0] eq "ran_from_world" || $ARGV[1] eq "ran_from_start")){ 
 				$menu_show++;
 				next;
 			}
