@@ -1,0 +1,104 @@
+ulimit -c unlimited
+
+# Create alias for 'cp' so it will overwrite without prompting
+alias cp='cp'
+
+case "$1" in
+        start)
+                export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
+
+                mv logs /backups/logs.`date +"%m-%d-%y"`
+                mkdir -p logs/zone
+
+                #sleep 1
+                echo Loading Shared Mem...
+                ./shared_memory > /dev/null 2>&1 &
+
+                sleep 2
+                echo "Starting World Server..."
+                ./world > /dev/null 2>&1 &
+                echo $! > /server/world.pid
+
+                sleep 3
+                echo "Starting Query Server..."
+                ./queryserv > /dev/null 2>&1 &
+                echo $! > /server/queryserv.pid
+
+                sleep 1
+                echo "Starting the Zone Launcher..."
+                ./eqlaunch zone > /dev/null 2>&1 &
+                echo $! > /server/zone.pid
+
+                sleep 1
+                echo "Starting the PEQ Launcher..."
+                ./eqlaunch peq > /dev/null 2>&1 &
+                echo $! > /server/peq.pid
+
+                echo "Starting Universal Chat Service (UCS)..."
+                ./ucs > logs/ucs.log 2>&1 &
+                echo $! > /server/ucs.pid
+
+                sleep 1
+                echo The server is mostly ready... Give it a couple of minutes
+                echo to load stuff from the database before the users start  logging in.
+                ;;
+        stop)
+                kill `cat /server/world.pid`
+                kill `cat /server/queryserv.pid`
+                kill `cat /server/zone.pid`
+                kill `cat /server/peq.pid`
+                kill `cat /server/ucs.pid`
+                rm -f /server/*.pid
+                echo All server components have been exited.
+                ;;
+        restart|reload)
+                $0 stop
+                $0 start
+                ;;
+        status)
+                if [ -f /server/world.pid ] && ps -p `cat /server/world.pid` > /dev/null
+                then
+                        echo -e World Server '\t\t'  [$(tput bold)$(tput setaf 2)UP$(tput sgr0)]
+                else
+                        echo -e World Server '\t\t' [$(tput bold)$(tput setaf 1)DOWN$(tput sgr0)]
+                fi
+                if [ -f /server/queryserv.pid ] && ps -p `cat /server/queryserv.pid` > /dev/null
+                then
+                        echo -e Query Server '\t\t' [$(tput bold)$(tput setaf 2)UP$(tput sgr0)]
+                else
+                        echo -e Query Server '\t\t' [$(tput bold)$(tput setaf 1)DOWN$(tput sgr0)]
+                fi
+
+                if [ -f /server/ucs.pid ] && ps -p `cat /server/ucs.pid` > /dev/null
+                then
+                        echo -e UCS Server '\t\t' [$(tput bold)$(tput setaf 2)UP$(tput sgr0)]
+                else
+                        echo -e UCS Server '\t\t' [$(tput bold)$(tput setaf 1)DOWN$(tput sgr0)]
+                fi
+
+                if [ -f /server/zone.pid ] && ps -p `cat /server/eqlaunch.pid` > /dev/null
+                then
+                        echo -e Zone Launcher '\t\t' [$(tput bold)$(tput setaf 2)UP$(tput sgr0)]
+                else
+                        echo -e Zone Launcher '\t\t' [$(tput bold)$(tput setaf 1)DOWN$(tput sgr0)]
+                fi
+                
+                if [ -f /server/peq.pid ] && ps -p `cat /server/eqlaunch.pid` > /dev/null
+                then
+                        echo -e PEQ Launcher '\t\t' [$(tput bold)$(tput setaf 2)UP$(tput sgr0)]
+                else
+                        echo -e PEQ Launcher '\t\t' [$(tput bold)$(tput setaf 1)DOWN$(tput sgr0)]
+                fi
+                ;;
+        help|*)
+                printf "Usage: \n ./EQServer.sh [start|stop|reload|restart|status|help]"
+                printf "\n\n"
+                printf " start\t\tStarts the server components\n"
+                printf " stop\t\tStops all the server components started by this script\n"
+                printf " restart/reload\tRestarts the server\n"
+                printf " status\t\tLists the status of the server components\n"
+                printf " help\t\tDisplays this message\n"
+                ;;
+
+        esac
+exit 0
