@@ -32,6 +32,7 @@ cd /home/eqemu/source/Install
 mysql -u root -peqemu < /home/eqemu/source/Install/db_prep.sql
 mysql -u eqemu -peqemu peq < /home/eqemu/source/Install/peqbeta.sql
 mysql -u eqemu -peqemu peq < /home/eqemu/player_tables.sql
+cd /home/eqemu/source
 git clone https://github.com/EQEmu/Server.git
 cd /home/eqemu/source/Server
 mkdir build
