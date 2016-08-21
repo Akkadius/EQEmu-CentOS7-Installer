@@ -51,6 +51,6 @@ touch $EMUDIR/server/plugin.pl
 cd $EMUDIR/server
 chmod +x $EMUDIR/server/*.pl
 chmod +x $EMUDIR/server/emuserver
-$EMUDIR/server/eqemu_update.pl update
 $EMUDIR/server/_update.pl firstrun ran_from_start
+$EMUDIR/server/eqemu_update.pl update
 chown -R eqemu.eqemu $EMUDIR
