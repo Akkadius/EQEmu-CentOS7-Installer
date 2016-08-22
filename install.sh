@@ -28,11 +28,6 @@ yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarc
 yum -y install deltarpm
 yum -y install open-vm-tools vim tuned tuned cmake boost-* zlib-devel mariadb-server mariadb-client mariadb-devel mariadb-libs mariadb-compat perl-* lua* p7zip dos2unix php-mysql iptables-services
 yum -y groupinstall "Development Tools" "Basic Web Server" "Compatibility Libraries"
-# Enable iptables service and start firewall
-systemctl enable iptables
-iptables-restore /home/eqemu/source/Install/iptables.eqemu
-service iptables save
-service iptables restart
 # Set tuned profile
 tuned-adm profile virtual-guest
 # Start MariaDB server and set root password
@@ -77,6 +72,11 @@ chmod +x $EMUDIR/server/*.pl
 chmod +x $EMUDIR/server/emuserver
 # Run modified updater and update official one
 $EMUDIR/server/_update.pl firstrun ran_from_start
+# Enable iptables service and start firewall
+systemctl enable iptables
+iptables-restore /home/eqemu/source/Install/iptables.eqemu
+service iptables save
+service iptables restart
 # We're done. Let's change the ownership to the eqemu user
 chown -R eqemu.eqemu $EMUDIR
 echo "Congratulations! If you saw no errors, your installation is complete."
