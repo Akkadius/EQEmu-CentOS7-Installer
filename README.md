@@ -6,7 +6,7 @@ This will install a new EQEmu installation on a minimal CentOS 7 installation. Y
 - To download the installer an another CentOS 7 installation, issue the followin: ```curl -O https://raw.githubusercontent.com/N0ctrnl/EQEmu-CentOS7-Install-Script/master/install.sh```
 
 ## Things to note
-- The $EMUDIR variable will be the home directory for the eqemu user
+- The $EMUDIR variable will be the home directory for the eqemu user. Set to /home/eqemu in the script but can be changed.
 - All passwords except the one specified for the eqemu user are set to 'eqemu' (This will be changed later)<br />
 - The compiled server will not have bots and would need to be recompiled.<br />
 - Likewise, the loginserver is not built.
