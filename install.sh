@@ -74,7 +74,7 @@ chmod +x $EMUDIR/server/emuserver
 $EMUDIR/server/_update.pl firstrun ran_from_start
 # Enable iptables service and start firewall
 systemctl enable iptables
-iptables-restore /home/eqemu/source/Install/iptables.eqemu
+iptables-restore $EMUDIR/source/Install/iptables.eqemu
 service iptables save
 service iptables restart
 # We're done. Let's change the ownership to the eqemu user
