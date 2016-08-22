@@ -20,11 +20,19 @@ gpgcheck=1
 EOF
 # Remove the extra CentOS options for the cp command
 alias cp='cp'
+# Disable firewalld service since we will be installing and using iptables
+systemctl stop firewalld
+systemctl mask firewalld
 # Install prereqs
 yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 yum -y install deltarpm
-yum -y install open-vm-tools vim tuned tuned cmake boost-* zlib-devel mariadb-server mariadb-client mariadb-devel mariadb-libs mariadb-compat perl-* lua* p7zip dos2unix php-mysql
+yum -y install open-vm-tools vim tuned tuned cmake boost-* zlib-devel mariadb-server mariadb-client mariadb-devel mariadb-libs mariadb-compat perl-* lua* p7zip dos2unix php-mysql iptables-services
 yum -y groupinstall "Development Tools" "Basic Web Server" "Compatibility Libraries"
+# Enable iptables service and start firewall
+systemctl enable iptables
+iptables-restore /home/eqemu/source/Install/iptables.eqemu
+service iptables save
+service iptables restart
 # Set tuned profile
 tuned-adm profile virtual-guest
 # Start MariaDB server and set root password
