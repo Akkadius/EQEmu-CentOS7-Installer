@@ -8,3 +8,5 @@ This will install a new EQEmu installation on a minimal CentOS 7 installation. Y
 - Likewise, the loginserver is not built.
 - The emuserver script must be called from the $EMUDIR/server directory, and must be run as the eqemu user.
 
+## Feedback
+Please do let me know if you have suggestions or issues. This is a very early work in progress. While it works well for me, I haven't yet done extensive testing. I'm also very open to suggestions on trimming down the OS package list. The idea is to make this quick to deploy, so anything that works toward that goal is just fine by me.
