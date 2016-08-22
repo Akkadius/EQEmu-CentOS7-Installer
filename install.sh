@@ -69,7 +69,6 @@ chmod +x $EMUDIR/server/*.pl
 chmod +x $EMUDIR/server/emuserver
 # Run modified updater and update official one
 $EMUDIR/server/_update.pl firstrun ran_from_start
-$EMUDIR/server/eqemu_update.pl update
 # We're done. Let's change the ownership to the eqemu user
 chown -R eqemu.eqemu $EMUDIR
 echo "Congratulations! If you saw no errors, your installation is complete."
