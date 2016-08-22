@@ -3,7 +3,7 @@
 export EMUDIR=/home/eqemu
 # Add the eqemu user/group
 groupadd -g 1000 eqemu
-useradd -g 1000 -u 1000 -d $EMUDIR
+useradd -g 1000 -u 1000 -d $EMUDIR eqemu
 # Set a password for the eqemu user
 echo "Please enter a new password for the eqemu user"
 passwd eqemu
