@@ -1,6 +1,10 @@
 # EQEmu-CentOS7-Install-Script
 This will install a new EQEmu installation on a minimal CentOS 7 installation. You can download an OVA (virtual machine image) of the CentOS install at https://mega.nz/#!soISAKRR!Xm6Zkm1ngOVas4U-le6G_K3Mv2PYuzpBMFVN9RKjlSk
 
+## Running this script
+- If using the OVA from the link above, there is a script called ```download-installer.sh``` in /root. This script will download the ```install.sh``` script which can then be run by doing ```chmod +x install.sh; ./install.sh``` or ```sh install.sh```
+- To download the installer an another CentOS 7 installation, issue the followin: ```curl -O https://raw.githubusercontent.com/N0ctrnl/EQEmu-CentOS7-Install-Script/master/install.sh```
+
 ## Things to note
 - The $EMUDIR variable will be the home directory for the eqemu user
 - All passwords except the one specified for the eqemu user are set to 'eqemu' (This will be changed later)<br />
