@@ -2,8 +2,8 @@
 # Base directory to hold source/server files. Also serves as the eqemu user's home directory
 export EMUDIR=/home/eqemu
 # Add the eqemu user/group
-groupadd -g 1000 eqemu
-useradd -g 1000 -u 1000 -d $EMUDIR eqemu
+groupadd eqemu
+useradd -g eqemu -d $EMUDIR eqemu
 # Set a password for the eqemu user
 echo "Please enter a new password for the eqemu user"
 passwd eqemu
