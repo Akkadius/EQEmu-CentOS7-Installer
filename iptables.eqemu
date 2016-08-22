@@ -50,7 +50,6 @@ COMMIT
 -A OUTPUT -o eth0 -p udp -m multiport --sports 5998,5999,7000:7200,7778,7779,9080,9000 -m state --state ESTABLISHED -j ACCEPT
 -A OUTPUT -o eth0 -p tcp -m tcp --sport 25 -m state --state ESTABLISHED -j ACCEPT
 -A OUTPUT -s 69.168.254.244/32 -p tcp -m tcp --sport 3306 --dport 1024:65535 -m state --state ESTABLISHED -j ACCEPT
--A OUTPUT -s 162.248.92.104/32 -p tcp -m tcp --sport 3306 --dport 1024:65535 -m state --state ESTABLISHED -j ACCEPT
 -A OUTPUT -p udp -m udp --dport 123 -j ACCEPT
 COMMIT
 # Completed on Tue Feb  2 19:01:53 2016
