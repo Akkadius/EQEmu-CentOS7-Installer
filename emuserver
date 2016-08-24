@@ -1,9 +1,6 @@
 #!/bin/sh
 ulimit -c unlimited
 
-# Create alias for 'cp' so it will overwrite without prompting
-alias cp='cp'
-
 case "$1" in
         start)
                 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
