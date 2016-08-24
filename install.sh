@@ -38,6 +38,7 @@ sleep 5
 # Create source and server directories
 mkdir $EMUDIR/server
 mkdir $EMUDIR/source
+mkdir $EMUDIR/source/logincrypto
 # Pull down needed files for the installer from the Install repo
 cd $EMUDIR/source
 git clone https://github.com/N0ctrnl/EQEmu-CentOS7-Install-Script.git Install
@@ -50,6 +51,11 @@ mysql -u eqemu -peqemu peq < $EMUDIR/source/Install/player_tables.sql
 # Checkout and build EQEmu Server source
 cd $EMUDIR/source
 git clone https://github.com/EQEmu/Server.git
+cd $EMUDIR/source/logincrypto
+# Download the crypto libraries needed to build the login server and copy them to the EQEmu source
+wget http://eqemu.github.io/downloads/fedora12_LoginServerCrypto_x64.zip
+unzip fedora12_LoginServerCrypto_x64
+cp libcryptopp.a  libEQEmuAuthCrypto.a $EMUDIR/source/Server/dependencies
 cd $EMUDIR/source/Server
 mkdir build
 cd $EMUDIR/source/Server/build
