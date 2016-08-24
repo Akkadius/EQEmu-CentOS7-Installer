@@ -59,7 +59,7 @@ cp libcryptopp.a  libEQEmuAuthCrypto.a $EMUDIR/source/Server/dependencies
 cd $EMUDIR/source/Server
 mkdir build
 cd $EMUDIR/source/Server/build
-cmake -G "Unix Makefiles" ..
+cmake -G "Unix Makefiles" -DEQEMU_BUILD_LOGIN=ON -DEQEMU_BUILD_LUA=ON ..
 echo "Building EQEmu Server code. This will take a while."
 make
 # Create server directories and copy needed files
