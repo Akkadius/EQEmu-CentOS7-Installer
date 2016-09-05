@@ -133,11 +133,6 @@ gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 enabled=1
 gpgcheck=1
 EOF
-# Remove the extra CentOS options for the cp command
-alias cp='cp'
-# Disable firewalld service since we will be installing and using iptables
-systemctl stop firewalld
-systemctl mask firewalld
 # Install prereqs
 yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 yum -y install deltarpm
